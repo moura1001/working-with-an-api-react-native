@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
 
 export default function DataListApi() {
+  const [people, setPeople] = useState([])
+
   return (
     <SafeAreaView>
       <FlatList
-        data={[]}
+        data={people}
         keyExtractor={(item) => `${item.name.first}-${item.name.last}`}
         renderItem={({ item }) => {
           return(
