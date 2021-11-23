@@ -2,10 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
 
 export default function DataListApi() {
-  const [people, setPeople] = useState([])
+  const [people, setPeople] = useState([]);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const response = await fetch("https://randomuser.me/api/?results=100&inc=name");
+        const data = await response.json();
+        setPeople(data.results);
+      } catch(error) {
+        
+      }
+    }
+    
+    loadData();
+  }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={people}
         keyExtractor={(item) => `${item.name.first}-${item.name.last}`}
@@ -25,6 +39,11 @@ export default function DataListApi() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'yellow',
+    marginBottom: 8
+  },
   row: {
     paddingHorizontal: 10,
     paddingVertical: 10

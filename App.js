@@ -5,7 +5,7 @@ import DataListApi from './components/DataListApi';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>API fetched data:</Text>
+      <Text style={styles.title}>API fetched data:</Text>
       <DataListApi />
     </View>
   );
@@ -16,7 +16,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '16%'
+    justifyContent: 'center'
   },
+  title: {
+    backgroundColor: 'pink',
+    marginTop: '16%',
+    marginBottom: 8
+  }
 });
