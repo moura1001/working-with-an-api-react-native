@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, ActivityIndicator } from 'react-native';
 
 export default function DataListApi() {
   const [people, setPeople] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setPeople([]);
+    setLoading(true);
     async function loadData() {
       try {
         const response = await fetch("https://randomuser.me/api/?results=100&inc=name");
         const data = await response.json();
         setPeople(data.results);
       } catch(error) {
-        
+        console.log(error);
+        alert("Sorry, something went wrong.");
       }
+      setLoading(false);
     }
-    
-    loadData();
+
+    const timeout = setTimeout(loadData, 1000)
+
+    return () => {
+      clearTimeout(timeout);
+    }
   }, []);
 
   return (
@@ -33,6 +42,13 @@ export default function DataListApi() {
           );
         }}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ListEmptyComponent={() => {
+          if(loading){
+            return <ActivityIndicator size="large" color="#0000ff" />
+          }
+          
+          return null;
+        }}
       />
     </SafeAreaView>
   );
@@ -41,6 +57,7 @@ export default function DataListApi() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '80%',
     backgroundColor: 'yellow',
     marginBottom: 8
   },
